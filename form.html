@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YCC Premium Registration Form</title>
+<link rel="stylesheet" href="form.css">
+</head>
+
+<body>
+
+<div class="page-bg">
+
+<div id="a4Sheet">
+
+    <!-- HEADER -->
+    <div class="header">
+        <img src="formlogo-removebg-preview.png" class="logo">
+        <div>
+            <h1>YCC T-20 Registration Form</h1>
+            <p>Yalagondahalli Cricket Club</p>
+        </div>
+    </div>
+
+    <div class="reg-id">
+        Registration ID : ______________________
+    </div>
+
+    <!-- WATERMARK PLAYER -->
+    <img src="bg.avif" class="player-img">
+
+    <!-- PHOTO -->
+    <label for="photoUpload" class="photo-box">
+        <img id="previewPhoto">
+        <span id="photoText">Upload Photo</span>
+    </label>
+
+    <input type="file" id="photoUpload" hidden>
+
+    <!-- FORM SECTION -->
+    <div class="form-section">
+
+        <div class="form-row">
+    <label>Full Name</label>
+    <input type="text" placeholder="Enter Name">
+</div>
+
+<div class="form-row">
+    <label>Mobile Number</label>
+    <input type="text" placeholder="XXXXXXXXXX">
+</div>
+
+<div class="form-row">
+    <label>Jersey Name</label>
+    <input type="text" placeholder="Player Name">
+</div>
+
+<div class="form-row">
+    <label>Jersey Number</label>
+    <input type="text" placeholder="00">
+</div>
+
+<div class="form-row">
+    <label>Jersey Size</label>
+    <select class="jersey-size">
+        <option>Select Size</option>
+        <option>XS</option>
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+        <option>XXL</option>
+    </select>
+</div>
+
+    </div>
+
+    <!-- TERMS -->
+    <div class="terms">
+        <h3>Terms & Declaration / ನಿಯಮಗಳು ಮತ್ತು ಘೋಷಣೆ</h3>
+        <p>
+            1. Player must follow all tournament rules and management decisions.<br>
+            ಆಟಗಾರನು ಎಲ್ಲಾ ಟೂರ್ನಮೆಂಟ್ ನಿಯಮಗಳು ಹಾಗೂ ವ್ಯವಸ್ಥಾಪಕರ ನಿರ್ಧಾರಗಳನ್ನು ಪಾಲಿಸಬೇಕು.<br><br>
+
+            2. Management decision will be final in all disputes.<br>
+            ಎಲ್ಲಾ ವಿವಾದಗಳಲ್ಲಿ ವ್ಯವಸ್ಥಾಪಕರ ನಿರ್ಧಾರ ಅಂತಿಮವಾಗಿರುತ್ತದೆ.<br><br>
+
+            3. Player participates at his own responsibility regarding fitness and safety.<br>
+            ಆಟಗಾರನು ತನ್ನ ಫಿಟ್ನೆಸ್ ಮತ್ತು ಸುರಕ್ಷತೆಗಾಗಿ ಸ್ವತಃ ಜವಾಬ್ದಾರನಾಗಿರುತ್ತಾನೆ.<br><br>
+
+            4. Any misconduct or indiscipline may lead to immediate disqualification.<br>
+            ಯಾವುದೇ ರೀತಿಯ ದುರ್ನಡತೆ ಅಥವಾ ಶಿಸ್ತು ಉಲ್ಲಂಘನೆಯು ತಕ್ಷಣವೇ ಅನರ್ಹತೆಗೆ (disqualification) ಕಾರಣವಾಗಬಹುದು.<br><br>
+
+            5. By registering, the player confirms that all provided information is true.<br>
+            ನೋಂದಣಿಯಿಂದ ನೀಡಿದ ಮಾಹಿತಿಯು ಸತ್ಯವೆಂದು ಆಟಗಾರನು ದೃಢೀಕರಿಸುತ್ತಾನೆ.
+        </p>
+
+        <label class="checkbox">
+            <input type="checkbox">
+            I agree to the terms and conditions / ನಾನು ನಿಯಮಗಳನ್ನು ಒಪ್ಪುತ್ತೇನೆ
+        </label>
+    </div>
+
+    <!-- SIGNATURE AREA -->
+    <div class="signatures">
+        <div>Player Signature<br>____________________</div>
+        <div>Organizer Signature<br>____________________</div>
+    </div>
+
+</div>
+
+<button id="downloadBtn">Download JPG</button>
+
+</div>
+
+
+<!-- HTML2CANVAS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    /* ========= PHOTO UPLOAD FIX ========= */
+    const photoUpload = document.getElementById("photoUpload");
+    const previewPhoto = document.getElementById("previewPhoto");
+    const photoText = document.getElementById("photoText");
+
+    photoUpload.addEventListener("change", function(){
+
+        const file = this.files[0];
+        if(!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+            previewPhoto.src = e.target.result;
+            previewPhoto.style.display = "block";
+            photoText.style.display = "none";
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+
+    /* ========= DOWNLOAD JPG FIX (MOBILE + DESKTOP) ========= */
+
+    document.getElementById("downloadBtn")
+    .addEventListener("click", async function(){
+
+        const sheet = document.getElementById("a4Sheet");
+
+        /* ⭐ SAVE CURRENT MOBILE SCALE */
+        const oldTransform = sheet.style.transform;
+        const oldZoom = sheet.style.zoom;
+
+        /* ⭐ TEMPORARILY RESET SCALE FOR CLEAN CAPTURE */
+        sheet.style.transform = "none";
+        sheet.style.zoom = "1";
+
+        try{
+
+            const canvas = await html2canvas(sheet,{
+                scale:2,
+                useCORS:true,
+                backgroundColor:"#ffffff",
+                scrollX:0,
+                scrollY:-window.scrollY
+            });
+
+            const image = canvas.toDataURL("image/jpeg", 1.0);
+
+            /* ⭐ FORCE JPG DOWNLOAD */
+            const a = document.createElement("a");
+            a.download = "YCC_Registration_Form.jpg";
+            a.href = image;
+            document.body.appendChild(a);
+            a.click();
+document.body.removeChild(a);
+
+/* ⭐ Redirect after download */
+setTimeout(()=>{
+    window.location.href = "thankyou.html";
+}, 1200);
+
+        }catch(err){
+            console.error(err);
+            alert("Download failed.");
+        }
+
+        /* ⭐ RESTORE MOBILE SCALE */
+        sheet.style.transform = oldTransform;
+        sheet.style.zoom = oldZoom;
+
+    });
+
+});
+</script>
+
+</body>
+</html>

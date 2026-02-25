@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You | Sukumar K</title>
+<link rel="stylesheet" href="thankyou.css">
+</head>
+
+<body>
+
+<div class="thank-container">
+
+    <h1>🎉 Thank You!</h1>
+    <h2>Thanks for visiting Sukumar's Website</h2>
+
+    <p>Your application has been downloaded successfully.</p>
+
+    <div class="btn-group">
+        <a href="form.html" class="btn new">Register New Application</a>
+        <button class="btn exit" onclick="exitSite()">Exit</button>
+    </div>
+
+</div>
+
+<script>
+function exitSite(){
+    window.close();
+
+    // fallback if browser blocks close
+    setTimeout(()=>{
+        window.location.href = "https://www.google.com";
+    },500);
+}
+</script>
+
+</body>
+</html>
