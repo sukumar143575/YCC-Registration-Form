@@ -174,13 +174,15 @@ document.addEventListener("DOMContentLoaded", function(){
             a.download = "YCC_Registration_Form.jpg";
             a.href = image;
             document.body.appendChild(a);
-            a.click();
-document.body.removeChild(a);
 
-/* ⭐ Redirect after download */
-setTimeout(()=>{
-    window.location.href = "thankyou.html";
-}, 1200);
+            a.click();
+
+            document.body.removeChild(a);
+
+            /* ⭐ SAFE REDIRECT FOR MOBILE */
+            setTimeout(function(){
+                window.location.href = "thankyou.html";
+            }, 3000);   // <-- IMPORTANT FIX
 
         }catch(err){
             console.error(err);
@@ -197,4 +199,5 @@ setTimeout(()=>{
 </script>
 
 </body>
+
 </html>
